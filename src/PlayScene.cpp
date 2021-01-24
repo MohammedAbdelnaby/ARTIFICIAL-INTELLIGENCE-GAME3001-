@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "EventManager.h"
 
+
 // required for IMGUI
 #include "imgui.h"
 #include "imgui_sdl.h"
@@ -60,9 +61,15 @@ void PlayScene::start()
 {
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
-	
+	m_pTarget = new Target();
+	m_pTarget->getTransform()->position = glm::vec2(400.0f, 300.0f);
+	addChild(m_pTarget);
+
+
+
 	m_pSpaceship = new Spaceship();
 	m_pSpaceship->getTransform()->position = glm::vec2(100.0f, 100.0f);
+	m_pSpaceship->setEnabled(false);
 	addChild(m_pSpaceship);
 }
 
@@ -74,22 +81,26 @@ void PlayScene::GUI_Function() const
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+	ImGui::Begin("Target Mover", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
-	if(ImGui::Button("My Button"))
-	{
-		std::cout << "My Button Pressed" << std::endl;
+	if(ImGui::Button("START"))
+	{	
+		m_pSpaceship->setEnabled(true);
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("restart"))
+	{
+		m_pSpaceship->getTransform()->position = glm::vec2(100.0f, 100.0f);
+		m_pSpaceship->setEnabled(false);
+	}
+	
 
 	ImGui::Separator();
 
-	static float float3[3] = { 0.0f, 1.0f, 1.5f };
-	if(ImGui::SliderFloat3("My Slider", float3, 0.0f, 2.0f))
+	static float float2[2] = {m_pTarget->getTransform()->position.x, m_pTarget->getTransform()->position.y};
+	if(ImGui::SliderFloat2("TARGET", float2, 0.0f, 800.0f))
 	{
-		std::cout << float3[0] << std::endl;
-		std::cout << float3[1] << std::endl;
-		std::cout << float3[2] << std::endl;
-		std::cout << "---------------------------\n";
+		m_pTarget->getTransform()->position = glm::vec2(float2[0], float2[1]);
 	}
 	
 	ImGui::End();

@@ -6,6 +6,7 @@
 #include "Button.h"
 #include "Label.h"
 #include "SpaceShip.h"
+#include "Target.h"
 
 class PlayScene : public Scene
 {
@@ -27,6 +28,7 @@ private:
 	glm::vec2 m_mousePosition;
 
 	Spaceship* m_pSpaceship;
+	Target* m_pTarget;
 
 	// UI Items
 
