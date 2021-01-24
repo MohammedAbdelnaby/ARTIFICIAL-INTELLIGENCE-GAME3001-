@@ -55,7 +55,7 @@ void PlayScene::handleEvents()
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
 }
-
+// test
 void PlayScene::start()
 {
 	// Set GUI Title
