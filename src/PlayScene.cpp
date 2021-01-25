@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include "Game.h"
 #include "EventManager.h"
+#include "Util.h"
 
 
 // required for IMGUI
@@ -82,8 +83,22 @@ void PlayScene::GUI_Function() const
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("Target Mover", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
+
+
+
+	ImGui::Begin("Target Mover", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+	static float float1 = 10.0f;
+	if (ImGui::SliderFloat("MAXSPEED", &float1, 0.0f, 100.0f))
+	{
+		m_pSpaceship->setMaxSpeed(float1);
+	}
+	static float angleInRadians = 0.0f;
+	if (ImGui::SliderAngle("Orientation Angle", &angleInRadians))
+	{
+		m_pSpaceship->setRotation(angleInRadians * Util::Rad2Deg);
+	}
+	
 	if(ImGui::Button("START"))
 	{	
 		m_pSpaceship->setEnabled(true);

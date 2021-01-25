@@ -1,7 +1,7 @@
 #include "SpaceShip.h"
 #include "Util.h"
 
-Spaceship::Spaceship():m_MaxSpeed(10.0f)
+Spaceship::Spaceship():m_MaxSpeed(10.0f), m_Orientation(glm::vec2(0.0f,-1.0f)), m_RotationAngle(0.0f)
 {
 	TextureManager::Instance()->load("../Assets/textures/spaceship.png", "spaceship");
 	auto size = TextureManager::Instance()->getTextureSize("spaceship");
@@ -13,6 +13,7 @@ Spaceship::Spaceship():m_MaxSpeed(10.0f)
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	setType(SPACE_SHIP);
+	
 
 }
 
@@ -21,7 +22,10 @@ Spaceship::~Spaceship()
 
 void Spaceship::draw()
 {
-	TextureManager::Instance()->draw("spaceship", getTransform()->position.x, getTransform()->position.y, 0, 255, true);
+	TextureManager::Instance()->draw("spaceship", getTransform()->position.x, getTransform()->position.y, m_RotationAngle, 255, true);
+
+
+	Util::DrawLine(getTransform()->position,(getTransform()->position + m_Orientation * 70.0f));
 }
 
 void Spaceship::update()
@@ -40,6 +44,21 @@ void Spaceship::setDestination(const glm::vec2 destination)
 void Spaceship::setMaxSpeed(const float speed)
 {
 	m_MaxSpeed = speed;
+}
+
+void Spaceship::setOrientation(glm::vec2 Orientation)
+{
+	m_Orientation = Orientation;
+}
+
+void Spaceship::setRotation(float Angle)
+{
+	m_RotationAngle = Angle;
+}
+
+float Spaceship::getRotation() const
+{
+	return m_RotationAngle;
 }
 
 void Spaceship::m_Move()
