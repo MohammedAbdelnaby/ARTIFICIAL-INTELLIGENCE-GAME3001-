@@ -70,6 +70,7 @@ void PlayScene::start()
 	m_pSpaceship = new Spaceship();
 	m_pSpaceship->getTransform()->position = glm::vec2(100.0f, 100.0f);
 	m_pSpaceship->setEnabled(false);
+	m_pSpaceship->setDestination(m_pTarget->getTransform()->position);
 	addChild(m_pSpaceship);
 }
 
@@ -88,7 +89,7 @@ void PlayScene::GUI_Function() const
 		m_pSpaceship->setEnabled(true);
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("restart"))
+	if (ImGui::Button("RESTART"))
 	{
 		m_pSpaceship->getTransform()->position = glm::vec2(100.0f, 100.0f);
 		m_pSpaceship->setEnabled(false);
@@ -101,6 +102,7 @@ void PlayScene::GUI_Function() const
 	if(ImGui::SliderFloat2("TARGET", float2, 0.0f, 800.0f))
 	{
 		m_pTarget->getTransform()->position = glm::vec2(float2[0], float2[1]);
+		m_pSpaceship->setDestination(m_pTarget->getTransform()->position);
 	}
 	
 	ImGui::End();
