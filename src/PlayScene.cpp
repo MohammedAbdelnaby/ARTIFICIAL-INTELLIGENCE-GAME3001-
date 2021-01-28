@@ -63,13 +63,15 @@ void PlayScene::start()
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 	m_pTarget = new Target();
-	m_pTarget->getTransform()->position = glm::vec2(400.0f, 300.0f);
+	m_pTarget->getTransform()->position = glm::vec2(500.0f, 400.0f);
 	addChild(m_pTarget);
 
-
+	m_pObstacle = new Obstacle();
+	m_pObstacle->getTransform()->position = glm::vec2(300.0f, 300.0f);
+	addChild(m_pObstacle);
 
 	m_pSpaceship = new Spaceship();
-	m_pSpaceship->getTransform()->position = glm::vec2(100.0f, 100.0f);
+	m_pSpaceship->getTransform()->position = glm::vec2(100.0f, 300.0f);
 	m_pSpaceship->setEnabled(false);
 	m_pSpaceship->setDestination(m_pTarget->getTransform()->position);
 	addChild(m_pSpaceship);

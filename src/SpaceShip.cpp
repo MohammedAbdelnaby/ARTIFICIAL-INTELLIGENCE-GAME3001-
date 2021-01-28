@@ -26,7 +26,7 @@ void Spaceship::draw()
 	TextureManager::Instance()->draw("spaceship", getTransform()->position.x, getTransform()->position.y, m_RotationAngle, 255, true);
 
 
-	Util::DrawLine(getTransform()->position,(getTransform()->position + m_Orientation * 70.0f));
+	Util::DrawLine(getTransform()->position,(getTransform()->position + getOrientation() * 70.0f));
 }
 
 void Spaceship::update()
