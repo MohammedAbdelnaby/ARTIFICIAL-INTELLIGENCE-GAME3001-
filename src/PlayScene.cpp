@@ -107,6 +107,8 @@ void PlayScene::GUI_Function() const
 	if (ImGui::Button("RESTART"))
 	{
 		m_pSpaceship->getTransform()->position = glm::vec2(100.0f, 100.0f);
+		m_pSpaceship->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
+		m_pSpaceship->setRotation(0.0f);
 		m_pSpaceship->setEnabled(false);
 	}
 	

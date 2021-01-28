@@ -2,7 +2,7 @@
 #include "Util.h"
 #include "Game.h"
 
-Spaceship::Spaceship():m_MaxSpeed(10.0f), m_Orientation(glm::vec2(0.0f,-1.0f)), m_RotationAngle(0.0f)
+Spaceship::Spaceship():m_MaxSpeed(10.0f), m_Orientation(glm::vec2(0.0f,-1.0f)), m_RotationAngle(0.0f),m_accelerationRate(10.0f),m_turnRate(10.0f)
 {
 	TextureManager::Instance()->load("../Assets/textures/spaceship.png", "spaceship");
 	auto size = TextureManager::Instance()->getTextureSize("spaceship");
@@ -103,8 +103,23 @@ void Spaceship::m_Move()
 	//normalized direction
 	m_TargetDirection = Util::normalize(m_TargetDirection);
 	auto target_rotation = Util::signedAngle(getOrientation(), m_TargetDirection);
-	std::cout << "Target Rotation:" << target_rotation << std::endl;
-	//getRigidBody()->velocity = m_TargetDirection * m_MaxSpeed;
+	auto turn_sensitivity = 5.0f;
+	if (abs(target_rotation) > turn_sensitivity)
+	{
+		if (target_rotation > 0.0f)
+		{
+			setRotation(getRotation() + getTurnRate());
+		}
+		else if (target_rotation < 0.0f)
+		{
+			setRotation(getRotation() - getTurnRate());
+		}
+	}
+	
+	getRigidBody()->acceleration = getOrientation() * getAccelerationRate();
+	// using the formula pf = pi + vi*t_0.5ai*t^2
+	getRigidBody()->velocity += getOrientation() * (deltalTime) + 0.5f * getRigidBody()->acceleration * (deltalTime);
 
-	//getTransform()->position += getRigidBody()->velocity;
+	getRigidBody()->velocity = Util::clamp(getRigidBody()->velocity, m_MaxSpeed);
+	getTransform()->position += getRigidBody()->velocity;
 }
