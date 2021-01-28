@@ -94,15 +94,25 @@ void PlayScene::GUI_Function() const
 		m_pSpaceship->setMaxSpeed(float1);
 	}
 	static float angleInRadians = 0.0f;
-	if (ImGui::SliderAngle("Orientation Angle", &angleInRadians))
+	//if (ImGui::SliderAngle("Orientation Angle", &angleInRadians))
+	//{
+	//	m_pSpaceship->setRotation(angleInRadians * Util::Rad2Deg);
+	//}
+	static float accelerationRate = 2.0f;
+	if (ImGui::SliderFloat("Acceleration Rate", &accelerationRate, 0.0f, 50.0f))
 	{
-		m_pSpaceship->setRotation(angleInRadians * Util::Rad2Deg);
+		m_pSpaceship->setAccelerationRate(accelerationRate);
 	}
-	
+	static float turnRate = 5.0f;
+	if (ImGui::SliderFloat("Turn Rate", &turnRate, 0.0f, 20.0f))
+	{
+		m_pSpaceship->setTurnRate(turnRate);
+	}
 	if(ImGui::Button("START"))
 	{	
 		m_pSpaceship->setEnabled(true);
 	}
+
 	ImGui::SameLine();
 	if (ImGui::Button("RESTART"))
 	{
@@ -110,6 +120,11 @@ void PlayScene::GUI_Function() const
 		m_pSpaceship->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 		m_pSpaceship->setRotation(0.0f);
 		m_pSpaceship->setEnabled(false);
+		turnRate = 5.0f;
+		accelerationRate = 2.0f;
+		float1 = 10.0f;
+		angleInRadians = m_pSpaceship->getRotation();
+		
 	}
 	
 
