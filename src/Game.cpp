@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "EventManager.h"
 
+
 // IMGUI Includes
 #include "imgui.h"
 #include "imgui_sdl.h"
@@ -125,6 +126,16 @@ void Game::setFrames(const Uint32 frames)
 Uint32 Game::getFrames() const
 {
 	return m_frames;
+}
+
+float Game::getDeltaTime()const
+{
+	return m_deltaTime;
+}
+
+void Game::setDeltaTime(const float time)
+{
+	m_deltaTime = time;
 }
 
 void Game::changeSceneState(const SceneState new_state)

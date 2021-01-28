@@ -1,5 +1,6 @@
 #include "SpaceShip.h"
 #include "Util.h"
+#include "Game.h"
 
 Spaceship::Spaceship():m_MaxSpeed(10.0f), m_Orientation(glm::vec2(0.0f,-1.0f)), m_RotationAngle(0.0f)
 {
@@ -59,6 +60,13 @@ void Spaceship::setOrientation(const glm::vec2 Orientation)
 void Spaceship::setRotation(const float Angle)
 {
 	m_RotationAngle = Angle;
+	const auto angle_in_radians = (Angle - 90.0f) * Util::Deg2Rad;
+
+	const auto x = cos(angle_in_radians);
+	const auto y = sin(angle_in_radians);
+
+	// convert the angle to a normalized vector
+	setOrientation(glm::vec2(x, y));
 }
 
 float Spaceship::getRotation() const
@@ -83,16 +91,20 @@ float Spaceship::getAccelerationRate()const
 
 void Spaceship::setAccelerationRate(const float rate)
 {
-	m_accelerationRate = rate
+	m_accelerationRate = rate;
 }
 
 void Spaceship::m_Move()
 {
+	auto deltalTime = TheGame::Instance()->getDeltaTime();
+
 	//direction with Magnitude
 	m_TargetDirection = m_destination - getTransform()->position;
 	//normalized direction
 	m_TargetDirection = Util::normalize(m_TargetDirection);
-	getRigidBody()->velocity = m_TargetDirection * m_MaxSpeed;
+	auto target_rotation = Util::signedAngle(getOrientation(), m_TargetDirection);
+	std::cout << "Target Rotation:" << target_rotation << std::endl;
+	//getRigidBody()->velocity = m_TargetDirection * m_MaxSpeed;
 
-	getTransform()->position += getRigidBody()->velocity;
+	//getTransform()->position += getRigidBody()->velocity;
 }
