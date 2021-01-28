@@ -19,7 +19,7 @@ Spaceship::Spaceship():m_MaxSpeed(10.0f), m_Orientation(glm::vec2(0.0f,-1.0f)), 
 
 Spaceship::~Spaceship()
 = default;
-
+ 
 void Spaceship::draw()
 {
 	TextureManager::Instance()->draw("spaceship", getTransform()->position.x, getTransform()->position.y, m_RotationAngle, 255, true);

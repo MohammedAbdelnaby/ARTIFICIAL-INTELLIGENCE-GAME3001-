@@ -38,6 +38,20 @@ float Util::clamp(float value, const float min, const float max)
 	return value;
 }
 
+glm::vec2 Util::clamp(glm::vec2 vec, const float max_Length)
+{
+	auto const sqr_magnitue = squaredMagnitude(vec);
+	if (sqr_magnitue > max_Length * max_Length)
+	{
+		const auto mag = sqr_magnitue;
+		const auto normalized_x = vec.x / mag;
+		const auto normalized_y = vec.y / mag;
+		return glm::vec2(normalized_x * max_Length, normalized_y * max_Length);
+
+	}
+	return vec;
+}
+
 /**
 * Clamps a value between 0 and 1 and returns the result
 *
