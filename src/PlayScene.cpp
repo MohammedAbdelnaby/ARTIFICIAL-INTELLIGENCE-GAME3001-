@@ -31,6 +31,7 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
+	CollisionManager::AABBCheck(m_pSpaceship, m_pObstacle);
 }
 
 void PlayScene::clean()
